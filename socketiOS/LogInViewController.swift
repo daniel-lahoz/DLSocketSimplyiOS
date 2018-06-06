@@ -42,7 +42,8 @@ extension LogInViewController: ChatRoomLoginDelegate{
         print("Loged")
         //Create the chatRoomView
         let chatRoomView = self.storyboard!.instantiateViewController(withIdentifier: "ChatroomViewController") as! ChatroomViewController
-        
+        //Injecting username
+        chatRoomView.username = txtUsername.text!
         //Injecting chatRoomManager y create delegation
         chatRoomView.chatRoom = self.chatRoom
         chatRoomView.chatRoom?.chatReciverDelegate = chatRoomView

@@ -59,6 +59,7 @@ class ChatRoomHandler{
         //Doing the connection to the server
         // FIXME: Change the socket URL to your own server if needed
         self.manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress, .selfSigned(true)])
+        //self.manager = SocketManager(socketURL: URL(string: "http://192.168.1.55:3000/")!, config: [.log(true), .compress, .selfSigned(true)])
         self.socket = manager.defaultSocket
         
         //Whe we obtain connection we active the listeners of the reciverMethods() ans also call the login()
