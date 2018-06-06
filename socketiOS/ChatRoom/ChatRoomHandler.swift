@@ -37,7 +37,8 @@ func socketCommand(command: serverCommand, dataString: String) -> Data? {
 ///ChatRoomHandler connect to **Socket.io** server handle the chatroom messages and conections
 class ChatRoomHandler{
     //Username and Room name
-    var username, roomname: String
+    var username, roomname: String?
+    var iAmLogged: Bool = false
     
     //Socket variables
     var manager: SocketManager
@@ -47,34 +48,43 @@ class ChatRoomHandler{
     var loginDelegate: ChatRoomLoginDelegate?
     var chatReciverDelegate: ChatRoomReciverDelegate?
     
-    ///Create the connection to **Socket.io** server and join the room
-    ///
-    /// - Parameters:
-    ///     - username: The *username* string
-    ///     - roomname: The *name* of the *room* to be join.
-    init(username: String, roomname: String){
-        self.username = username
-        self.roomname = roomname
-        
+    init(){
         //Doing the connection to the server
         // FIXME: Change the socket URL to your own server if needed
         self.manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress, .selfSigned(true)])
         //self.manager = SocketManager(socketURL: URL(string: "http://192.168.1.55:3000/")!, config: [.log(true), .compress, .selfSigned(true)])
         self.socket = manager.defaultSocket
-        
+    }
+    
+    
+    
+    ///Create the connection to **Socket.io** server and join the room
+    ///
+    /// - Parameters:
+    ///     - username: The *username* string
+    ///     - roomname: The *name* of the *room* to be join.
+    func connectToServer(username: String, roomname: String){
+        self.username = username
+        self.roomname = roomname
+
         //Whe we obtain connection we active the listeners of the reciverMethods() ans also call the login()
         self.socket.on(clientEvent: .connect) {data, ack in
             print("socket connected")
             self.reciverMothods()
             self.logIn()
         }
-        
-        self.socket.connect()
+    
+        self.socket.connect(timeoutAfter: 1.0) {
+            print("connection problem")
+        }
+        //self.socket.connect()
     }
     
     ///LogIn into the room named with *roomname* and *username*
     func logIn(){
-        socket.emit(serverCommand.addUser.rawValue, ["username" : username, "roomname" : roomname])
+        if iAmLogged == false{
+            socket.emit(serverCommand.addUser.rawValue, ["username" : username, "roomname" : roomname])
+        }
     }
     
     ///Send a new message to all room users
@@ -86,10 +96,16 @@ class ChatRoomHandler{
     
     ///This function send the message to yourself so you can show in the tableView your own message
     func sendMyMessageToMyself(message: String){
-        let message = messageChat(username: username, message: message)
+        let message = messageChat(username: username!, message: message)
         if self.chatReciverDelegate != nil{
             self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
         }
+    }
+    
+    ///Send a new message to all room users
+    public func disconnectFromServer(){
+        socket.disconnect()
+        self.iAmLogged = false
     }
     
     //MARK: - Reciver Mothods
@@ -98,8 +114,8 @@ class ChatRoomHandler{
     func reciverMothods(){
         
         socket.on(serverCommand.login.rawValue) { data, ack in
+            self.iAmLogged = true
             print("Login happend")
-            
             if self.loginDelegate != nil{
                 self.loginDelegate?.chatRoomHasBeenLoged()
             }

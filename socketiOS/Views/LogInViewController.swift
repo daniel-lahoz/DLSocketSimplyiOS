@@ -14,12 +14,16 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var txtUsername: UITextField!
     @IBOutlet weak var txtRoomname: UITextField!
     
-    
-    var chatRoom: ChatRoomHandler?
+    var chatRoom: ChatRoomHandler = ChatRoomHandler()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        //Rremove delegate when we are going to dessapear
+        chatRoom.loginDelegate = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,8 +34,8 @@ class LogInViewController: UIViewController {
     //MARK:- Buttons actions
     @IBAction func touchLogin(_ sender: Any) {
         if txtUsername.text!.count > 0 && txtRoomname.text!.count > 0{
-            chatRoom = ChatRoomHandler.init(username: txtUsername.text!, roomname: txtRoomname.text!)
-            chatRoom?.loginDelegate = self
+            chatRoom.connectToServer(username: txtUsername.text!, roomname: txtRoomname.text!)
+            chatRoom.loginDelegate = self
         }
     }
     
@@ -40,6 +44,8 @@ class LogInViewController: UIViewController {
 extension LogInViewController: ChatRoomLoginDelegate{
     func chatRoomHasBeenLoged() {
         print("Loged")
+        self.chatRoom.loginDelegate = nil //Rremove delegate when we are going to dessapear to avoid multiple calls from server
+        
         //Create the chatRoomView
         let chatRoomView = self.storyboard!.instantiateViewController(withIdentifier: "ChatroomViewController") as! ChatroomViewController
         //Injecting username

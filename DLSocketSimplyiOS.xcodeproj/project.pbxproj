@@ -99,12 +99,9 @@
 		656B6CAC20C68D270032EA99 /* socketiOS */ = {
 			isa = PBXGroup;
 			children = (
-				65797E1A20C7E76B00140414 /* Auxiliary clases */,
+				658CA90220C8275E00739E5E /* Views */,
+				658CA90120C8273300739E5E /* ChatRoom */,
 				656B6CAD20C68D270032EA99 /* AppDelegate.swift */,
-				656B6CCD20C6901B0032EA99 /* ChatRoomHandler.swift */,
-				656B6CAF20C68D270032EA99 /* LogInViewController.swift */,
-				658CA8FD20C7F31F00739E5E /* ChatroomViewController.swift */,
-				658CA8FF20C7FA1600739E5E /* ChatroomCellView.swift */,
 				656B6CB120C68D270032EA99 /* Main.storyboard */,
 				656B6CB420C68D280032EA99 /* Assets.xcassets */,
 				656B6CB620C68D280032EA99 /* LaunchScreen.storyboard */,
@@ -122,13 +119,32 @@
 			path = socketiOSTests;
 			sourceTree = "<group>";
 		};
-		65797E1A20C7E76B00140414 /* Auxiliary clases */ = {
+		65797E1A20C7E76B00140414 /* Auxiliary */ = {
 			isa = PBXGroup;
 			children = (
 				65797E1B20C7E78C00140414 /* serverCommand.swift */,
 				65797E1D20C7E89100140414 /* messageChat.swift */,
 			);
-			path = "Auxiliary clases";
+			path = Auxiliary;
+			sourceTree = "<group>";
+		};
+		658CA90120C8273300739E5E /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+				65797E1A20C7E76B00140414 /* Auxiliary */,
+				656B6CCD20C6901B0032EA99 /* ChatRoomHandler.swift */,
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		658CA90220C8275E00739E5E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				656B6CAF20C68D270032EA99 /* LogInViewController.swift */,
+				658CA8FD20C7F31F00739E5E /* ChatroomViewController.swift */,
+				658CA8FF20C7FA1600739E5E /* ChatroomCellView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8EA69669CCC230461EDEBA36 /* Pods */ = {

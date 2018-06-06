@@ -34,7 +34,8 @@ class ChatroomViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        //Rremove delegate when we are to dessapear
+        //Rremove delegate when we are going to dessapear
+        chatRoom?.disconnectFromServer()
         chatRoom?.chatReciverDelegate = nil
         NotificationCenter.default.removeObserver(self)
     }
