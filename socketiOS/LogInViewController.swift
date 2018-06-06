@@ -13,9 +13,6 @@ class LogInViewController: UIViewController {
 
     @IBOutlet weak var txtUsername: UITextField!
     @IBOutlet weak var txtRoomname: UITextField!
-    @IBOutlet weak var txtMessage: UITextField!
-    
-    @IBOutlet weak var lbMessage: UILabel!
     
     
     var chatRoom: ChatRoomHandler?
@@ -35,14 +32,6 @@ class LogInViewController: UIViewController {
         if txtUsername.text!.count > 0 && txtRoomname.text!.count > 0{
             chatRoom = ChatRoomHandler.init(username: txtUsername.text!, roomname: txtRoomname.text!)
             chatRoom?.loginDelegate = self
-            chatRoom?.chatReciverDelegate = self
-        }
-    }
-    
-    @IBAction func touchSendMessage(_ sender: Any) {
-        if chatRoom != nil && txtMessage.text!.count > 0{
-            chatRoom?.sendNewMessage(message: txtMessage.text!)
-            txtMessage.text! = ""
         }
     }
     
@@ -50,16 +39,15 @@ class LogInViewController: UIViewController {
 
 extension LogInViewController: ChatRoomLoginDelegate{
     func chatRoomHasBeenLoged() {
-        print("Logeado")
+        print("Loged")
+        //Create the chatRoomView
+        let chatRoomView = self.storyboard!.instantiateViewController(withIdentifier: "ChatroomViewController") as! ChatroomViewController
+        
+        //Injecting chatRoomManager y create delegation
+        chatRoomView.chatRoom = self.chatRoom
+        chatRoomView.chatRoom?.chatReciverDelegate = chatRoomView
+        
+        //Push the view
+        self.navigationController!.pushViewController(chatRoomView, animated: true)
     }
-    
-    
-}
-
-extension LogInViewController: ChatRoomReciverDelegate{
-    func chatRoomHasReciveNewMessage(message: messageChat) {
-        let messageStr = message.message
-        lbMessage.text = messageStr
-    }
-    
 }

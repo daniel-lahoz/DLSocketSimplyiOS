@@ -79,6 +79,16 @@ class ChatRoomHandler{
     ///Send a new message to all room users
     public func sendNewMessage(message: String){
         socket.emit(serverCommand.newMessage.rawValue, message)
+        //Send to myself, you can comment this line if you dont want to recive your own messages
+        sendMyMessageToMyself(message: message)
+    }
+    
+    ///This function send the message to yourself so you can show in the tableView your own message
+    func sendMyMessageToMyself(message: String){
+        let message = messageChat(username: username, message: message)
+        if self.chatReciverDelegate != nil{
+            self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
+        }
     }
     
     //MARK: - Reciver Mothods

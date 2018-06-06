@@ -18,6 +18,8 @@
 		656B6CCE20C6901B0032EA99 /* ChatRoomHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656B6CCD20C6901B0032EA99 /* ChatRoomHandler.swift */; };
 		65797E1C20C7E78C00140414 /* serverCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65797E1B20C7E78C00140414 /* serverCommand.swift */; };
 		65797E1E20C7E89100140414 /* messageChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65797E1D20C7E89100140414 /* messageChat.swift */; };
+		658CA8FE20C7F31F00739E5E /* ChatroomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658CA8FD20C7F31F00739E5E /* ChatroomViewController.swift */; };
+		658CA90020C7FA1600739E5E /* ChatroomCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658CA8FF20C7FA1600739E5E /* ChatroomCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,8 @@
 		656B6CCD20C6901B0032EA99 /* ChatRoomHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomHandler.swift; sourceTree = "<group>"; };
 		65797E1B20C7E78C00140414 /* serverCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = serverCommand.swift; sourceTree = "<group>"; };
 		65797E1D20C7E89100140414 /* messageChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = messageChat.swift; sourceTree = "<group>"; };
+		658CA8FD20C7F31F00739E5E /* ChatroomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomViewController.swift; sourceTree = "<group>"; };
+		658CA8FF20C7FA1600739E5E /* ChatroomCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomCellView.swift; sourceTree = "<group>"; };
 		881A6E96987FE2F458FFA4F1 /* Pods-socketiOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-socketiOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-socketiOSTests/Pods-socketiOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C2BFA7C1491BA08044D5075B /* Pods_socketiOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_socketiOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C38BE8C9EB2E74CE599D8483 /* Pods_socketiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_socketiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,8 +101,10 @@
 			children = (
 				65797E1A20C7E76B00140414 /* Auxiliary clases */,
 				656B6CAD20C68D270032EA99 /* AppDelegate.swift */,
-				656B6CAF20C68D270032EA99 /* LogInViewController.swift */,
 				656B6CCD20C6901B0032EA99 /* ChatRoomHandler.swift */,
+				656B6CAF20C68D270032EA99 /* LogInViewController.swift */,
+				658CA8FD20C7F31F00739E5E /* ChatroomViewController.swift */,
+				658CA8FF20C7FA1600739E5E /* ChatroomCellView.swift */,
 				656B6CB120C68D270032EA99 /* Main.storyboard */,
 				656B6CB420C68D280032EA99 /* Assets.xcassets */,
 				656B6CB620C68D280032EA99 /* LaunchScreen.storyboard */,
@@ -309,10 +315,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				65797E1C20C7E78C00140414 /* serverCommand.swift in Sources */,
+				658CA90020C7FA1600739E5E /* ChatroomCellView.swift in Sources */,
 				656B6CB020C68D270032EA99 /* LogInViewController.swift in Sources */,
 				656B6CAE20C68D270032EA99 /* AppDelegate.swift in Sources */,
 				65797E1E20C7E89100140414 /* messageChat.swift in Sources */,
 				656B6CCE20C6901B0032EA99 /* ChatRoomHandler.swift in Sources */,
+				658CA8FE20C7F31F00739E5E /* ChatroomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
