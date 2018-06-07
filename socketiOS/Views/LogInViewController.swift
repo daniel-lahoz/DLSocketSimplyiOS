@@ -15,6 +15,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var txtRoomname: UITextField!
     
     var chatRoom: ChatRoomHandler = ChatRoomHandler()
+    var chatRoomView: ChatroomViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,14 +48,14 @@ extension LogInViewController: ChatRoomLoginDelegate{
         self.chatRoom.loginDelegate = nil //Rremove delegate when we are going to dessapear to avoid multiple calls from server
         
         //Create the chatRoomView
-        let chatRoomView = self.storyboard!.instantiateViewController(withIdentifier: "ChatroomViewController") as! ChatroomViewController
+        chatRoomView = self.storyboard!.instantiateViewController(withIdentifier: "ChatroomViewController") as? ChatroomViewController
         //Injecting username
-        chatRoomView.username = txtUsername.text!
+        chatRoomView!.username = txtUsername.text!
         //Injecting chatRoomManager y create delegation
-        chatRoomView.chatRoom = self.chatRoom
-        chatRoomView.chatRoom?.chatReciverDelegate = chatRoomView
+        chatRoomView!.chatRoom = self.chatRoom
+        chatRoomView!.chatRoom!.chatReciverDelegate = chatRoomView
         
         //Push the view
-        self.navigationController!.pushViewController(chatRoomView, animated: true)
+        self.navigationController!.pushViewController(chatRoomView!, animated: true)
     }
 }

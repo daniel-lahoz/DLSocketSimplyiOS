@@ -22,8 +22,9 @@ public enum serverCommand: String {
     reconnect = "reconnect",
     reconnectError = "reconnect_error",
     userJoined = "user joined",
-    userLeft = "user left"
+    userLeft = "user left",
+    ping = "ping"
     
-    static let allValues = [login, addUser, newMessage, typing, stopTyping, dissconnect, reconnect, reconnectError, userJoined, userLeft]
-    static let allRawValues: [String] = [login.rawValue, addUser.rawValue, newMessage.rawValue, typing.rawValue, stopTyping.rawValue, dissconnect.rawValue, reconnect.rawValue, reconnectError.rawValue, userJoined.rawValue, userLeft.rawValue]
+    static let allValues = [login, addUser, newMessage, typing, stopTyping, dissconnect, reconnect, reconnectError, userJoined, userLeft, ping]
+    static let allRawValues: [String] = [login.rawValue, addUser.rawValue, newMessage.rawValue, typing.rawValue, stopTyping.rawValue, dissconnect.rawValue, reconnect.rawValue, reconnectError.rawValue, userJoined.rawValue, userLeft.rawValue, ping.rawValue]
 }

@@ -9,14 +9,46 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "socketiOS/Views/LogInViewController.swift"
-            timestampString = "549991165.900763"
+            filePath = "Pods/Socket.IO-Client-Swift/Source/SocketIO/Client/SocketIOClient.swift"
+            timestampString = "550071985.795266"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "chatRoomHasBeenLoged()"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "handleEvent(_:data:isInternalMessage:withAck:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SocketIO.SocketIOClient.handleEvent(Swift.String, data: Swift.Array&lt;Any&gt;, isInternalMessage: Swift.Bool, withAck: Swift.Int) -&gt; ()"
+                  moduleName = "SocketIO"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/daniel/Proyectos/DLSocketSimplyiOS/Pods/Socket.IO-Client-Swift/Source/SocketIO/Client/SocketIOClient.swift"
+                  timestampString = "550061065.399691"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "342"
+                  endingLineNumber = "342"
+                  offsetFromSymbolStart = "254">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "implicit closure #2 : @autoclosure () -&gt; Swift.String in SocketIO.SocketIOClient.handleEvent(Swift.String, data: Swift.Array&lt;Any&gt;, isInternalMessage: Swift.Bool, withAck: Swift.Int) -&gt; ()"
+                  moduleName = "SocketIO"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/daniel/Proyectos/DLSocketSimplyiOS/Pods/Socket.IO-Client-Swift/Source/SocketIO/Client/SocketIOClient.swift"
+                  timestampString = "550061065.402082"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "342"
+                  endingLineNumber = "342"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

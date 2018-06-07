@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -124,6 +123,8 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="textMessageDidEndOnExit:" destination="KkX-xg-y0k" eventType="editingDidEndOnExit" id="5Wr-tV-nBa"/>
+                                    <action selector="textMessageEditDidiBeging:" destination="KkX-xg-y0k" eventType="editingDidBegin" id="gnO-rd-8JH"/>
+                                    <action selector="textMessageEditDidiEnd:" destination="KkX-xg-y0k" eventType="editingDidEnd" id="82E-E1-Qdw"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBh-Gt-lmn">
@@ -141,7 +142,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="13c-gq-6sw">
-                                <rect key="frame" x="20" y="60" width="335" height="507"/>
+                                <rect key="frame" x="20" y="60" width="335" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ChatroomCellView" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatroomCellView" rowHeight="75" id="cHz-nF-McL" customClass="ChatroomCellView" customModule="DLSocketSimplyiOS" customModuleProvider="target">
@@ -191,25 +192,38 @@
                                     <outlet property="delegate" destination="KkX-xg-y0k" id="dhf-mV-ob8"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQl-gg-my0">
+                                <rect key="frame" x="20" y="555" width="335" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="2HR-8A-SZt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6cr-wE-MIR" firstAttribute="leading" secondItem="Mtl-GX-2uq" secondAttribute="leading" constant="20" id="2Oa-rv-ods"/>
+                            <constraint firstItem="vQl-gg-my0" firstAttribute="leading" secondItem="Mtl-GX-2uq" secondAttribute="leading" constant="20" id="4A6-fS-SR3"/>
                             <constraint firstItem="13c-gq-6sw" firstAttribute="leading" secondItem="Mtl-GX-2uq" secondAttribute="leading" constant="20" id="4OW-5g-Y6k"/>
                             <constraint firstItem="kVI-kX-heZ" firstAttribute="leading" secondItem="Mtl-GX-2uq" secondAttribute="leading" constant="40" id="6wS-Jg-D7v"/>
+                            <constraint firstItem="Mtl-GX-2uq" firstAttribute="trailing" secondItem="vQl-gg-my0" secondAttribute="trailing" constant="20" id="D6i-7m-GbM"/>
                             <constraint firstItem="Mtl-GX-2uq" firstAttribute="bottom" secondItem="zBh-Gt-lmn" secondAttribute="bottom" constant="20" id="FXf-78-J8j"/>
                             <constraint firstItem="Mtl-GX-2uq" firstAttribute="trailing" secondItem="zBh-Gt-lmn" secondAttribute="trailing" constant="40" id="H8Z-c6-0ZR"/>
                             <constraint firstItem="13c-gq-6sw" firstAttribute="top" secondItem="6cr-wE-MIR" secondAttribute="bottom" constant="10" id="HEg-P4-nHD"/>
-                            <constraint firstItem="kVI-kX-heZ" firstAttribute="top" secondItem="13c-gq-6sw" secondAttribute="bottom" constant="10" id="HVA-ct-8Li"/>
                             <constraint firstItem="Mtl-GX-2uq" firstAttribute="trailing" secondItem="13c-gq-6sw" secondAttribute="trailing" constant="20" id="R8b-4j-0QN"/>
                             <constraint firstItem="zBh-Gt-lmn" firstAttribute="top" secondItem="kVI-kX-heZ" secondAttribute="bottom" constant="10" id="Umg-3c-6th"/>
                             <constraint firstItem="Mtl-GX-2uq" firstAttribute="trailing" secondItem="kVI-kX-heZ" secondAttribute="trailing" constant="40" id="VEo-7m-dNO"/>
+                            <constraint firstItem="kVI-kX-heZ" firstAttribute="top" secondItem="vQl-gg-my0" secondAttribute="bottom" constant="1" id="Vu3-hP-JYI"/>
+                            <constraint firstItem="vQl-gg-my0" firstAttribute="top" secondItem="13c-gq-6sw" secondAttribute="bottom" constant="1" id="c6h-ST-Whe"/>
                             <constraint firstItem="6cr-wE-MIR" firstAttribute="top" secondItem="Mtl-GX-2uq" secondAttribute="top" id="eMB-QB-s6D"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mtl-GX-2uq"/>
                     </view>
                     <navigationItem key="navigationItem" id="6uI-7G-uz0"/>
                     <connections>
+                        <outlet property="lbInfoMessage" destination="vQl-gg-my0" id="HxK-v4-5wA"/>
                         <outlet property="sendButtonBottom" destination="FXf-78-J8j" id="29v-sd-RZA"/>
                         <outlet property="tableViewOfMessages" destination="13c-gq-6sw" id="aqD-yS-uzD"/>
                         <outlet property="txtMessage" destination="kVI-kX-heZ" id="vZi-mV-OH4"/>

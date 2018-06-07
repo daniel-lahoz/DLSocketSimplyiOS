@@ -18,6 +18,10 @@ protocol ChatRoomLoginDelegate {
 // TODO: Complete the protocol
 protocol ChatRoomReciverDelegate {
     func chatRoomHasReciveNewMessage(message: messageChat)
+    func chatRoomHasReciveUserJoined(user: String)
+    func chatRoomHasReciveUserLeft(user: String)
+    func chatRoomHasReciveTyping(user: String)
+    func chatRoomHasReciveStopTyping(user: String)
 }
 
 
@@ -48,14 +52,16 @@ class ChatRoomHandler{
     var loginDelegate: ChatRoomLoginDelegate?
     var chatReciverDelegate: ChatRoomReciverDelegate?
     
+    let serverURL = /* URL(string: "http://localhost:3000")! */ URL(string: "http://192.168.1.55:3000/")!
+    
+    var recibedMethodsLoaded = false
+    
     init(){
         //Doing the connection to the server
-        // FIXME: Change the socket URL to your own server if needed
-        self.manager = SocketManager(socketURL: URL(string: "http://localhost:3000")!, config: [.log(true), .compress, .selfSigned(true)])
-        //self.manager = SocketManager(socketURL: URL(string: "http://192.168.1.55:3000/")!, config: [.log(true), .compress, .selfSigned(true)])
+        self.manager = SocketManager(socketURL: serverURL, config: [.log(true), .compress, .selfSigned(true)])
+        self.manager.reconnects = true
         self.socket = manager.defaultSocket
     }
-    
     
     
     ///Create the connection to **Socket.io** server and join the room
@@ -69,44 +75,95 @@ class ChatRoomHandler{
 
         //Whe we obtain connection we active the listeners of the reciverMethods() ans also call the login()
         self.socket.on(clientEvent: .connect) {data, ack in
-            print("socket connected")
-            self.reciverMothods()
-            self.logIn()
+            DispatchQueue.main.async {
+                print("🔌 socket connected")
+                self.iAmLogged = false
+                if self.recibedMethodsLoaded == false{
+                    self.recibedMethodsLoaded = true
+                    self.reciverMothods()
+                }
+                self.logIn()
+            }
         }
     
-        self.socket.connect(timeoutAfter: 1.0) {
-            print("connection problem")
+        self.socket.connect(timeoutAfter: 2.0) {
+            DispatchQueue.main.async {
+                print("🚨 connection problem")
+            }
         }
-        //self.socket.connect()
+        
+        self.socket.on(clientEvent: .disconnect) { data, ack in
+            DispatchQueue.main.async {
+                print("🚨 DISCONNECT")
+            }
+        }
+        
+        self.socket.on(clientEvent: .error) { data, ack in
+            DispatchQueue.main.async {
+                print("🚨 ERROR")
+            }
+        }
+        
+        self.socket.on(clientEvent: .statusChange) { data, ack in
+            DispatchQueue.main.async {
+                print("🚨 STATUS \(data)")
+            }
+        }
+        
     }
     
     ///LogIn into the room named with *roomname* and *username*
     func logIn(){
         if iAmLogged == false{
-            socket.emit(serverCommand.addUser.rawValue, ["username" : username, "roomname" : roomname])
+            DispatchQueue.main.async {
+                self.socket.emit(serverCommand.addUser.rawValue, ["username" : self.username, "roomname" : self.roomname])
+            }
         }
     }
     
     ///Send a new message to all room users
     public func sendNewMessage(message: String){
-        socket.emit(serverCommand.newMessage.rawValue, message)
-        //Send to myself, you can comment this line if you dont want to recive your own messages
-        sendMyMessageToMyself(message: message)
+        DispatchQueue.main.async {
+            self.socket.emit(serverCommand.newMessage.rawValue, message)
+            //Send to myself, you can comment this line if you dont want to recive your own messages
+            self.sendMyMessageToMyself(message: message)
+        }
     }
     
     ///This function send the message to yourself so you can show in the tableView your own message
     func sendMyMessageToMyself(message: String){
         let message = messageChat(username: username!, message: message)
         if self.chatReciverDelegate != nil{
-            self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
+            DispatchQueue.main.async {
+                self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
+            }
         }
     }
     
     ///Send a new message to all room users
     public func disconnectFromServer(){
-        socket.disconnect()
-        self.iAmLogged = false
+        DispatchQueue.main.async {
+            self.socket.disconnect()
+            self.iAmLogged = false
+        }
     }
+    
+    ///Send a Typing to the server
+    public func sendTyping(){
+        DispatchQueue.main.async {
+            self.socket.emit(serverCommand.typing.rawValue, [])
+        }
+    }
+    
+    ///Send a StopTyping to the server
+    public func sendStopTyping(){
+        DispatchQueue.main.async {
+            self.socket.emit(serverCommand.stopTyping.rawValue, [])
+        }
+    }
+    
+    
+    
     
     //MARK: - Reciver Mothods
     ///This methods awaiting for messages from our Socket.io server
@@ -115,14 +172,15 @@ class ChatRoomHandler{
         
         socket.on(serverCommand.login.rawValue) { data, ack in
             self.iAmLogged = true
-            print("Login happend")
+
             if self.loginDelegate != nil{
-                self.loginDelegate?.chatRoomHasBeenLoged()
+                DispatchQueue.main.async {
+                    self.loginDelegate?.chatRoomHasBeenLoged()
+                }
             }
         }
         
         socket.on(serverCommand.newMessage.rawValue) {data, ack in
-            print("Menssage Recived: \(data)")
             guard let dicc = data[0] as? [String : String] else{
                 return
             }
@@ -130,41 +188,87 @@ class ChatRoomHandler{
             let message = messageChat(username: dicc["username"]!, message: dicc["message"]!)
             
             if self.chatReciverDelegate != nil{
-                self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
+                DispatchQueue.main.async {
+                    self.chatReciverDelegate?.chatRoomHasReciveNewMessage(message: message)
+                }
             }
         }
         
         socket.on(serverCommand.userJoined.rawValue) {data, ack in
-            print("User Joined: \(data)")
+            guard let dicc = data[0] as? [String : Any] else{
+                return
+            }
+
+            let username = dicc["username"] as! String
+            
+            if self.chatReciverDelegate != nil{
+                DispatchQueue.main.async {
+                    self.chatReciverDelegate?.chatRoomHasReciveUserJoined(user: username)
+                }
+            }
         }
         
         socket.on(serverCommand.userLeft.rawValue) {data, ack in
-            print("User left: \(data)")
+            guard let dicc = data[0] as? [String : Any] else{
+                return
+            }
+            
+            let username = dicc["username"] as! String
+            
+            if self.chatReciverDelegate != nil{
+                DispatchQueue.main.async {
+                    self.chatReciverDelegate?.chatRoomHasReciveUserLeft(user: username)
+                }
+            }
         }
         
         socket.on(serverCommand.typing.rawValue) {data, ack in
-            print("typing... \(data)")
+            guard let dicc = data[0] as? [String : String] else{
+                return
+            }
+            
+            let username = dicc["username"]!
+            
+            if self.chatReciverDelegate != nil{
+                DispatchQueue.main.async {
+                    self.chatReciverDelegate?.chatRoomHasReciveTyping(user: username)
+                }
+            }
         }
         
         socket.on(serverCommand.stopTyping.rawValue) {data, ack in
-            print("stop typing... \(data)")
+            guard let dicc = data[0] as? [String : String] else{
+                return
+            }
+            
+            let username = dicc["username"]!
+            
+            if self.chatReciverDelegate != nil{
+                DispatchQueue.main.async {
+                    self.chatReciverDelegate?.chatRoomHasReciveStopTyping(user: username)
+                }
+            }
         }
         
         socket.on(serverCommand.dissconnect.rawValue) {data, ack in
-            print("Disconnect: \(data)")
+            DispatchQueue.main.async {
+                print("Disconnect: \(data)")
+            }
         }
         
         socket.on(serverCommand.reconnect.rawValue) {data, ack in
-            print("ReConnect: \(data)")
+            DispatchQueue.main.async {
+                print("ReConnect: \(data)")
+            }
         }
         
         socket.on(serverCommand.reconnectError.rawValue) {data, ack in
-            print("ReConnect ERROR: \(data)")
+            DispatchQueue.main.async {
+                print("ReConnect ERROR: \(data)")
+            }
         }
         
-        
     }
-    
     
 }
 

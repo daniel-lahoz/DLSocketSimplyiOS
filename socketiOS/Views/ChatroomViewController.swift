@@ -17,6 +17,7 @@ class ChatroomViewController: UIViewController {
     var arrayOfMessages: [messageChat] = []
     
     @IBOutlet weak var tableViewOfMessages: UITableView!
+    @IBOutlet weak var lbInfoMessage: UILabel!
     @IBOutlet weak var txtMessage: UITextField!
     
     @IBOutlet weak var sendButtonBottom: NSLayoutConstraint!
@@ -62,8 +63,21 @@ class ChatroomViewController: UIViewController {
         }
     }
     
+    //MARK:- Text Events
     @IBAction func textMessageDidEndOnExit(_ sender: Any) {
         self.touchSendMessage(sender)
+    }
+    
+    @IBAction func textMessageEditDidiBeging(_ sender: Any) {
+        if chatRoom != nil{
+            chatRoom?.sendTyping()
+        }
+    }
+    
+    @IBAction func textMessageEditDidiEnd(_ sender: Any) {
+        if chatRoom != nil{
+            chatRoom?.sendStopTyping()
+        }
     }
     
     //MARK:- Keyboard Show & Hide
@@ -122,6 +136,22 @@ extension ChatroomViewController: UITableViewDelegate, UITableViewDataSource{
 }
 
 extension ChatroomViewController: ChatRoomReciverDelegate{
+    func chatRoomHasReciveUserJoined(user: String) {
+        self.lbInfoMessage.text = "\(user) has join the room"
+    }
+    
+    func chatRoomHasReciveUserLeft(user: String) {
+        self.lbInfoMessage.text = "\(user) has left"
+    }
+    
+    func chatRoomHasReciveTyping(user: String) {
+        self.lbInfoMessage.text = "\(user) is typing..."
+    }
+    
+    func chatRoomHasReciveStopTyping(user: String) {
+        self.lbInfoMessage.text = ""
+    }
+    
     func chatRoomHasReciveNewMessage(message: messageChat) {
         
         self.arrayOfMessages.append(message)
